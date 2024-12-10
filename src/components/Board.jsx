@@ -4,12 +4,20 @@ import Square from './Square'
 const Board = ({ onWin, reset, moves, setMoves }) => {
   const winningPattern = [1, 2, 3, 4, 5, 6, 7, 8, null]
   const [tiles, setTiles] = useState([null, 1, 2, 3, 4, 5, 6, 7, 8])
+  const [positions, setPositions] = useState([])
 
   useEffect(() => {
     if (reset) {
       randompatterns()
     }
   }, [reset])
+
+  useEffect(() => {
+    const initialPositions = tiles.map((_, index) => ({
+      transform: `translate(${(index % 3) * 100}%, ${Math.floor(index / 3) * 100}%)`
+    }))
+    setPositions(initialPositions)
+  }, [tiles])
 
   const randompatterns = () => {
     const pattern = [1, 2, 3, 4, 5, 6, 7, 8, null]
@@ -59,11 +67,14 @@ const Board = ({ onWin, reset, moves, setMoves }) => {
   }
 
   return (
-    <div className='h-96 w-96 bg-gray-900 rounded-2xl grid grid-cols-3 relative '>
+    <div className='h-96 w-96 bg-gray-900 rounded-2xl p-2 grid grid-cols-3 gap-2 relative'>
       {tiles.map((e, index) => (
-        <button key={index} onClick={() => handleClick(index)} className='w-full h-full'>
-          <Square number={e} />
-        </button>
+        <Square
+          key={index}
+          number={e}
+          onClick={() => handleClick(index)}
+    
+        />
       ))}
     </div>
   )
