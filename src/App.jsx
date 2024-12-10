@@ -33,7 +33,7 @@ const App = () => {
   }
 
   return (
-    <div className='bg-zinc-800 w-full h-screen flex justify-center items-center font-semibold font-[Contrail-one] overflow-hidden gap-10 flex-col'>
+    <div className='bg-zinc-800 w-full h-screen flex justify-center items-center font-semibold font-[Contrail-one] overflow-hidden gap-10 flex-col '>
       <h1 className='text-3xl text-white font-mono flex gap-4'>8 Puzzle Game <a href="https://github.com/garvittsingla/8-puzzle-react"><FaGithub /></a></h1>
       <h1 className='text-xl text-white font-mono'>Moves: {moves}</h1>
       <Board onWin={() => setIsWon(true)} reset={reset} moves={moves} setMoves={setMoves} />

@@ -59,7 +59,7 @@ const Board = ({ onWin, reset, moves, setMoves }) => {
   }
 
   return (
-    <div className='h-96 w-96 bg-gray-900 rounded-lg grid grid-cols-3 relative '>
+    <div className='h-96 w-96 bg-gray-900 rounded-2xl grid grid-cols-3 relative '>
       {tiles.map((e, index) => (
         <button key={index} onClick={() => handleClick(index)} className='w-full h-full'>
           <Square number={e} />
