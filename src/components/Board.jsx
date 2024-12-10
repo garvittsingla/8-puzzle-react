@@ -1,10 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Square from './Square'
 
-const Board = () => {
-  const initialPattern = [null, 1, 2, 3, 4, 5, 6, 7, 8]
-  const winningPattern = [1, 2, 3, 4, 5, 6, 7, 8,null]
-  const [tiles, setTiles] = useState(initialPattern)
+const Board = ({ onWin, reset, moves, setMoves }) => {
+  const winningPattern = [1, 2, 3, 4, 5, 6, 7, 8, null]
+  const [tiles, setTiles] = useState([null, 1, 2, 3, 4, 5, 6, 7, 8])
+
+  useEffect(() => {
+    if (reset) {
+      randompatterns()
+    }
+  }, [reset])
+
+  const randompatterns = () => {
+    const pattern = [1, 2, 3, 4, 5, 6, 7, 8, null]
+    for (let i = pattern.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[pattern[i], pattern[j]] = [pattern[j], pattern[i]]
+    }
+    setTiles(pattern)
+  }
 
   const canMove = (pattern, tile) => {
     const nullIndex = pattern.indexOf(null)
@@ -28,21 +42,24 @@ const Board = () => {
       newTiles[nullIndex] = tile
       newTiles[index] = null
       setTiles(newTiles)
-      checkWin(newTiles, winningPattern);
+      setMoves(moves + 1)
+      if (checkWin(newTiles)) {
+        onWin()
+      }
     }
   }
-  const checkWin = (tiles, winningPattern) => {
-    for (let i = 0; i < tiles.length; i++) {
-        if (tiles[i] != winningPattern[i]) {
-            return false;
-        }
-    }
 
-    return true;
-};
+  const checkWin = (tiles) => {
+    for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i] !== winningPattern[i]) {
+        return false
+      }
+    }
+    return true
+  }
 
   return (
-    <div className='h-96 w-96 bg-gray-900 rounded-lg grid grid-cols-3'>
+    <div className='h-96 w-96 bg-gray-900 rounded-lg grid grid-cols-3 relative '>
       {tiles.map((e, index) => (
         <button key={index} onClick={() => handleClick(index)} className='w-full h-full'>
           <Square number={e} />
